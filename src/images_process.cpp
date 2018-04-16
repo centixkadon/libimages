@@ -12,8 +12,7 @@ void Images::_process() {
   _Myimage images_read;
   while (_images_reads.pop_front(images_read)) {
     _Myimage images_write;
-    images_write.index = images_read.index;
-    calculate(images_write.images, images_read.images);
+    calculate(images_write.index = images_read.index, images_write.images, images_read.images);
     evaluate(images_write.images, images_read.images);
 
     _images_writes.push_back(images_write);

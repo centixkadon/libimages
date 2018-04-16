@@ -22,7 +22,8 @@ class Images {
 
 public:
   explicit Images(std::vector<std::string> window_reads, std::vector<std::string> window_writes);
-  ~Images();
+  virtual ~Images() = default;
+
   void join();
   _Myt & process(size_t index, std::vector<std::string> const & names_read, std::vector<std::string> const & names_write);
 
@@ -35,7 +36,7 @@ private:
   void _write();
 
   virtual bool preprocess(std::map<std::string, cv::Mat> & images_read);
-  virtual void calculate(std::map<std::string, cv::Mat> & images_write, std::map<std::string, cv::Mat> & images_read) = 0;
+  virtual void calculate(size_t index, std::map<std::string, cv::Mat> & images_write, std::map<std::string, cv::Mat> & images_read) = 0;
   virtual void evaluate(std::map<std::string, cv::Mat> & images_write, std::map<std::string, cv::Mat> & images_read) {}
 
   std::vector<std::string> _window_reads, _window_writes;

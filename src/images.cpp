@@ -5,13 +5,7 @@ using namespace std;
 
 Images::Images(vector<string> window_reads, vector<string> window_writes)
   : _window_reads(window_reads), _window_writes(window_writes), _names_reads(), _names_writes(), _images_reads(), _images_writes(), _closed(false),
-    _th_read(bind(&Images::_read, this)),
-    _th_process(bind(&Images::_process, this)),
-    _th_write(bind(&Images::_write, this)) {}
-
-Images::~Images() {
-  join();
-}
+    _th_read(bind(&Images::_read, this)), _th_process(bind(&Images::_process, this)), _th_write(bind(&Images::_write, this)) {}
 
 void Images::join() {
   _names_reads.close();

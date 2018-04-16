@@ -12,18 +12,25 @@ public:
     : Images({ "left", "right", "groundtruth" }, { "disparity" }),
       _maxDisparity(maxDisparity),
       _sgbm(stereo::StereoBinarySGBM::create(0, _maxDisparity, 9)) {}
+  virtual ~CalcDisparityImages() { join(); }
 
 private:
-  virtual void calculate(std::map<std::string, cv::Mat> & images_write, std::map<std::string, cv::Mat> & images_read) {
+  virtual void calculate(size_t index, std::map<std::string, cv::Mat> & images_write, std::map<std::string, cv::Mat> & images_read) {
+    tout << "DispImages: " << index << tendl;
+
     Mat disp;
+
+    chrono::tick_diff t_sgbm("sgbm");
     _sgbm->compute(images_read["left"], images_read["right"], disp);
+    tout << "DispImages: " << t_sgbm.diff() << tendl;
+
     disp.convertTo(disp, CV_8UC1, 256.0 / ((_maxDisparity - 1) * 16), 0.0);
     images_write["disparity"] = disp;
   };
   virtual void evaluate(std::map<std::string, cv::Mat> & images_write, std::map<std::string, cv::Mat> & images_read) {
     double alpha = _maxDisparity / 256.0;
     Mat err = (abs(images_read["groundtruth"] * alpha - images_write["disparity"] * alpha)(Range(16, 300), Range(64, 400)) > 4) / 255;
-    tout << sum(err)[0] / err.size().area() << tendl;
+    tout << "DispImages: " << sum(err)[0] / err.size().area() << tendl;
   };
 
   int const _maxDisparity;
