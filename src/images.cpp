@@ -15,11 +15,11 @@ void Images::join() {
   if (_th_write.joinable()) _th_write.join();
 }
 
-Images::_Myt & Images::process(size_t index, std::vector<std::string> const & names_read, std::vector<std::string> const & names_write) {
+Images::_Myt & Images::process(size_t index, vector<string> const & names_read, vector<string> const & names_write) {
   if (!*this) return *this;
 
   for (auto & name_read : names_read) {
-    if (!ifstream(name_read)) {
+    if ((name_read != "") && !ifstream(name_read)) {
       _closed = true;
       return *this;
     }

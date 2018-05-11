@@ -4,7 +4,6 @@
 #include "images.hpp"
 
 using namespace std;
-using namespace cv;
 
 void Images::_process() {
   tout << "cvProcess: begin" << tendl;

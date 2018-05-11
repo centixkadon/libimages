@@ -12,7 +12,6 @@ public:
     : Images({ "left", "right", "groundtruth" }, { "disparity" }),
       _maxDisparity(maxDisparity),
       _sgbm(stereo::StereoBinarySGBM::create(0, _maxDisparity, 9)) {}
-  virtual ~CalcDisparityImages() { join(); }
 
 private:
   virtual void calculate(size_t index, std::map<std::string, cv::Mat> & images_write, std::map<std::string, cv::Mat> & images_read) {
